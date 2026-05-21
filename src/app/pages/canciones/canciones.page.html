@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>� Canciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding fondo">
+
+  <div class="header-section">
+    <h2>Mi colección de música</h2>
+    <p>Administra tus canciones favoritas</p>
+  </div>
+
+  <!-- Estado vacío -->
+  <div *ngIf="canciones.length === 0" class="empty-state">
+    <ion-icon name="musical-notes-outline"></ion-icon>
+    <h3>No hay canciones registradas</h3>
+    <p>Presiona el botón + para agregar una</p>
+  </div>
+
+  <!-- Lista -->
+  <ion-card class="game-card" *ngFor="let cancion of canciones">
+    
+    <ion-card-header>
+      <ion-card-title>{{ cancion.detalle }}</ion-card-title>
+      <ion-card-subtitle>{{ cancion.created_at | date: 'short' }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <div *ngIf="cancion.imagen_url" class="preview-container">
+        <img [src]="cancion.imagen_url" alt="{{ cancion.detalle }}">
+      </div>
+
+      <div *ngIf="cancion.audio_url" class="audio-container">
+        <audio controls [src]="cancion.audio_url"></audio>
+      </div>
+
+      <div *ngIf="cancion.video_url" class="video-container">
+        <a [href]="cancion.video_url" target="_blank" rel="noopener noreferrer">
+          <ion-icon name="play-circle-outline"></ion-icon> Ver video
+        </a>
+      </div>
+
+      <div class="acciones">
+        <ion-button
+          fill="solid"
+          color="warning"
+          size="small"
+          (click)="editarCancion(cancion)">
+          Editar
+        </ion-button>
+
+        <ion-button
+          fill="solid"
+          color="danger"
+          size="small"
+          (click)="eliminarCancion(cancion.id!)">
+          Eliminar
+        </ion-button>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón flotante -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary" class="fab-add" (click)="agregarCancion()">
+      <ion-icon name="add-outline"></ion-icon>
+      <span>➕</span>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
